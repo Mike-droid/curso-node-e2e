@@ -25,7 +25,7 @@ app.use(cors(options));
 require('./utils/auth');
 
 app.get('/', (req, res) => {
-  res.send('Hola mi server en express');
+  res.send('Hola, este es mi server en express 😎');
 });
 
 app.get('/nueva-ruta', checkApiKey, (req, res) => {
