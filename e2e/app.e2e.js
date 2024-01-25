@@ -1,5 +1,5 @@
 const supertest = require("supertest");
-const express = require('express');
+const createApp = require('../src/app');
 
 describe('Tests for app', () => {
   let app = null;
@@ -7,10 +7,7 @@ describe('Tests for app', () => {
   let api = null;
 
   beforeEach(() => {
-    app = express();
-
-    app.get('/hello', (req, res) => res.status(200).json({name: 'mike'}));
-
+    app = createApp();
     server = app.listen(9000);
     api = supertest(app);
   });
