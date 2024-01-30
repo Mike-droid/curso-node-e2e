@@ -6,7 +6,7 @@ describe('Tests for app', () => {
   let server = null;
   let api = null;
 
-  beforeEach(() => {
+  beforeAll(() => {
     app = createApp();
     server = app.listen(9000);
     api = supertest(app);
@@ -20,7 +20,7 @@ describe('Tests for app', () => {
     expect(response.headers['content-type']).toMatch(/json/);
   });
 
-  afterEach(() => {
+  afterAll(() => {
     server.close();
   });
 });

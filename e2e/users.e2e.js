@@ -8,7 +8,7 @@ describe('Tests for /users path', () => {
   let api = null;
   const apiUrlBase = '/api/v1/users/';
 
-  beforeEach(() => {
+  beforeAll(() => {
     app = createApp();
     server = app.listen(9000);
     api = supertest(app);
@@ -54,7 +54,7 @@ describe('Tests for /users path', () => {
 
   describe('DELETE /users', () => {});
 
-  afterEach(() => {
+  afterAll(() => {
     server.close();
   });
 });
