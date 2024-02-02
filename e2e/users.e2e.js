@@ -48,6 +48,20 @@ describe('Tests for /users path', () => {
       };
       await executeTest(inputData, /email/);
     });
+
+    test('should return a new user', async () => {
+      const inputData = {
+        email: 'angel@gmail.com',
+        password: 'angel12345',
+      };
+      const { statusCode, body } = await api.post(apiUrlBase).send(inputData);
+      expect(statusCode).toBe(201);
+      //check DB
+      const user = models.User.findByPk(body.id);
+      expect(user).toBeTruthy();
+      expect(user.role).toEqual('admin');
+      expect(user.email).toEqual(inputData.email);
+    });
   });
 
   describe('PUT /users', () => {});
