@@ -1,6 +1,7 @@
 const supertest = require('supertest');
 const createApp = require('../src/app');
 const { models } = require('../src/db/sequelize');
+const { upSeed, downSeed } = require('./utils/seed');
 
 describe('Tests for /users path', () => {
   let app = null;
@@ -8,10 +9,11 @@ describe('Tests for /users path', () => {
   let api = null;
   const apiUrlBase = '/api/v1/users/';
 
-  beforeAll(() => {
+  beforeAll(async () => {
     app = createApp();
     server = app.listen(9000);
     api = supertest(app);
+    await upSeed();
   });
 
   describe('GET /users/{id}', () => {
@@ -53,11 +55,12 @@ describe('Tests for /users path', () => {
       const inputData = {
         email: 'angel@gmail.com',
         password: 'angel12345',
+        role: 'admin',
       };
       const { statusCode, body } = await api.post(apiUrlBase).send(inputData);
       expect(statusCode).toBe(201);
       //check DB
-      const user = models.User.findByPk(body.id);
+      const user = await models.User.findByPk(body.id);
       expect(user).toBeTruthy();
       expect(user.role).toEqual('admin');
       expect(user.email).toEqual(inputData.email);
@@ -68,7 +71,8 @@ describe('Tests for /users path', () => {
 
   describe('DELETE /users', () => {});
 
-  afterAll(() => {
+  afterAll(async () => {
+    await downSeed();
     server.close();
   });
 });
