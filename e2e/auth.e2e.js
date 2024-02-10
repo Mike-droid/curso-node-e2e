@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 const createApp = require('../src/app');
 const { models } = require('../src/db/sequelize');
-const { upSeed, downSeed } = require('./utils/seed');
+const { upSeed, downSeed } = require('./utils/umzug');
 
 describe('Tests for /auth path', () => {
   let app = null;
@@ -22,7 +22,9 @@ describe('Tests for /auth path', () => {
         email: 'emailfake@mail.com',
         password: 'sdjfhsdjkfs',
       };
-      const { statusCode } = await api.post(`${apiUrlBase}login`).send(inputData);
+      const { statusCode } = await api
+        .post(`${apiUrlBase}login`)
+        .send(inputData);
       expect(statusCode).toBe(401);
     });
 
@@ -30,18 +32,20 @@ describe('Tests for /auth path', () => {
       const user = await models.User.findByPk('1');
       const inputData = {
         email: user.email,
-        password: 'admin123'
+        password: 'admin123',
       };
-      const { statusCode, body } = await api.post(`${apiUrlBase}login`).send(inputData);
-      expect(statusCode).toBe(200)
-      expect(body.access_token).toBeTruthy()
-      expect(body.user.email).toEqual(user.email)
-      expect(body.user.password).toBe(undefined)
+      const { statusCode, body } = await api
+        .post(`${apiUrlBase}login`)
+        .send(inputData);
+      expect(statusCode).toBe(200);
+      expect(body.access_token).toBeTruthy();
+      expect(body.user.email).toEqual(user.email);
+      expect(body.user.password).toBe(undefined);
     });
   });
 
   afterAll(async () => {
     await downSeed();
-    server.close()
+    server.close();
   });
 });

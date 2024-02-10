@@ -1,7 +1,9 @@
+const { CheckQueryInterface } = require('../../../e2e/utils/checkQueryInterface');
 const { PRODUCT_TABLE } = require('../models/product.model');
 
 module.exports = {
   up: async (queryInterface) => {
+    queryInterface = CheckQueryInterface(queryInterface);
     return queryInterface.bulkInsert(PRODUCT_TABLE, [
       {
         name: 'Product 1',
@@ -38,6 +40,7 @@ module.exports = {
     ]);
   },
   down: (queryInterface) => {
+    queryInterface = CheckQueryInterface(queryInterface);
     return queryInterface.bulkDelete(PRODUCT_TABLE, null, {});
   },
 };

@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
 const { USER_TABLE } = require('../models/user.model');
+const { CheckQueryInterface } = require('../../../e2e/utils/checkQueryInterface');
 
 module.exports = {
   up: async (queryInterface) => {
+    queryInterface = CheckQueryInterface(queryInterface);
     const password = 'admin123';
     const hash = await bcrypt.hash(password, 10);
     return queryInterface.bulkInsert(USER_TABLE, [{
@@ -13,6 +15,7 @@ module.exports = {
     }]);
   },
   down: (queryInterface) => {
+    queryInterface = CheckQueryInterface(queryInterface);
     return queryInterface.bulkDelete(USER_TABLE, null, {});
   }
 };
