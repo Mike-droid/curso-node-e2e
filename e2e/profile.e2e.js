@@ -17,7 +17,7 @@ describe('Tests for /profile', () => {
     await upSeed();
   });
 
-  describe('GET /profile/my-user', () => {
+  describe('GET /profile/my-user (login with admin user)', () => {
     //* login is required to get access_token
     beforeAll(async () => {
       const user = await models.User.findByPk('1');
