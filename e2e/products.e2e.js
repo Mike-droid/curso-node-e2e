@@ -27,10 +27,21 @@ describe('Tests for /products path', () => {
 
     test('should return first product in DB', async () => {
       const product = await models.Product.findByPk('1');
-      const { statusCode, body } = await api.get(`${apiUrlBase}/${product.id}`);
+      const { statusCode, body } = await api.get(`${apiUrlBase}${product.id}`);
       expect(statusCode).toEqual(200);
       expect(body.name).toEqual(product.name);
     });
+
+    function testWithLimitAndOffset(limit, offset) {
+      test(`should return ${limit} products with limit = ${limit} and offset = ${offset}`, async () => {
+        const { statusCode, body } = await api.get(`${apiUrlBase}?limit=${limit}&offset=${offset}`);
+        expect(statusCode).toEqual(200);
+        expect(body.length).toEqual(limit);
+      }
+    )}
+
+    testWithLimitAndOffset(2, 0);
+    testWithLimitAndOffset(2, 2);
   });
 
   afterAll(async () => {
