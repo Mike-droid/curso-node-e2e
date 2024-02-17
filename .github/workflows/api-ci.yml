@@ -10,7 +10,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     container:
-      image: node:16
+      image: node:20
 
     services:
       postgres-e2e:
